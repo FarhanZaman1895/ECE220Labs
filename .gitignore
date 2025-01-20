@@ -53,3 +53,4 @@ dkms.conf
 
 # IDE Stuff
 compile_commands.json
+output
