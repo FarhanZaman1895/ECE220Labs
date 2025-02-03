@@ -4,3 +4,6 @@ SRC = ./src
 
 output: $(SRC)/main.c
 	$(CC) -o output $(SRC)/main.c
+
+clean:
+	rm output
