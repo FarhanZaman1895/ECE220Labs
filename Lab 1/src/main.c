@@ -12,6 +12,7 @@ int main() {
 
     // Prompt User for the Range
     while (max < min) {
+        printf("Please enter a range.");
         printf("Range, minimum: ");
         scanf("%d", &min);
 
