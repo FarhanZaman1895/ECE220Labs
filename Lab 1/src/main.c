@@ -22,17 +22,20 @@ int main() {
     /** PROGRAM GUESS NUMBER **/
 
     // Variable Declarations
-    int counter = 0, state = 1;
+    int counter = 0; 
+    int user_input = 0;
     int program_guessed_number = (max + min) / 2;
 
     printf("Guessed number: %d\n", program_guessed_number);
 
-    while (state != 3) {
-        state = user_interaction();
+    // Main While Loop
+    while (user_input != 3) {
+        user_input = user_interaction();
 
-        if (state == 1) {
+        // Use the user input to check if the number is too large or too small
+        if (user_input == 1) {
             max = program_guessed_number - 1;
-        } else if (state == 2) {
+        } else if (user_input == 2) {
             min = program_guessed_number + 1;
         }
 
@@ -42,6 +45,7 @@ int main() {
         counter++;
     }
 
+    // Ending Prompt
     printf("FOUND IT\n");
     printf("No. of tries: %d\n", counter);
 
