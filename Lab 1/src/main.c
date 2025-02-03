@@ -12,7 +12,7 @@ int main() {
 
     // Prompt User for the Range
     while (max < min) {
-        printf("Please enter a range.");
+        printf("Please enter a range.\n");
         printf("Range, minimum: ");
         scanf("%d", &min);
 
@@ -34,9 +34,9 @@ int main() {
         user_input = user_interaction();
 
         // Use the user input to check if the number is too large or too small
-        if (user_input == 1) {
+        if (user_input == 1) { // Option 1
             max = program_guessed_number - 1;
-        } else if (user_input == 2) {
+        } else if (user_input == 2) { // Option 2
             min = program_guessed_number + 1;
         }
 
