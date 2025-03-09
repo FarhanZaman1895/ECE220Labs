@@ -37,6 +37,8 @@ int max(int localBuffer[]);
 int odds(int localBuffer[]);
 int evens(int localBuffer[]);
 
+void printBuffer(int localBuffer[]);
+
 // two functions provided to you (defined in io.h and io.c) are:
 // int get_value(void);
 //       this function generates a single value
@@ -55,13 +57,32 @@ int main(void) {
     reading(inputBuffer);
 
     while (inputBuffer[0] != -1) {
+
         transferring(inputBuffer, localBuffer);
+
         processing(localBuffer);
+
         transferring(localBuffer, outputBuffer);
+
         submitting(outputBuffer);
+
+        printf("Input Buffer: ");
+        printBuffer(inputBuffer);
+        printf("Local Buffer: ");
+        printBuffer(localBuffer);
+        printf("Output Buffer: ");
+        printBuffer(outputBuffer);
+
         // set all buffers to 0
+        for (int i = 0; i < BUFFER_SIZE; i++) {
+            inputBuffer[i]  = 0;
+            localBuffer[i]  = 0;
+            outputBuffer[i] = 0;
+        }
+
         reading(inputBuffer);
     }
+
     return 0;
 }
 
@@ -80,25 +101,34 @@ void transferring(int sourceBuffer[], int destinationBuffer[]) {
 }
 
 void processing(int localBuffer[]) {
-    localBuffer[1] = (localBuffer[0] >= 4) + 1;
+    int tempStorage = 0;
     switch (localBuffer[0]) {
         case 0:
             localBuffer[2] = min(localBuffer);
+            break;
         case 1:
             localBuffer[2] = max(localBuffer);
+            break;
         case 2:
             localBuffer[2] = odds(localBuffer);
+            break;
         case 3:
             localBuffer[2] = evens(localBuffer);
+            break;
         case 4:
-            localBuffer[2] = min(localBuffer);
+            tempStorage = min(localBuffer);
             localBuffer[3] = max(localBuffer);
+            localBuffer[2] = tempStorage;
+            break;
         case 5:
-            localBuffer[2] = odds(localBuffer);
+            tempStorage = odds(localBuffer);
             localBuffer[3] = evens(localBuffer);
+            localBuffer[2] = tempStorage;
+            break;
     }
-}
 
+    localBuffer[1] = (localBuffer[0] >= 4) + 1;
+}
 
 void submitting(int outputBuffer[]) {
     if (submit_results(outputBuffer)) {
@@ -154,4 +184,11 @@ int evens(int localBuffer[]) {
     }
 
     return evens;
+}
+
+void printBuffer(int localBuffer[]) {
+    for (int i = 0; i < localBuffer[1] + 1; i++) {
+        printf("%d, ", localBuffer[i]);
+    }
+    printf("%d\n", localBuffer[localBuffer[1] + 1]);
 }
