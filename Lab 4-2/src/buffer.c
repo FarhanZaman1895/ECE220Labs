@@ -6,42 +6,59 @@
 #define ODDEVEN 5
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "io.h"
+#include "memory.h"
 #include "buffer.h"
 
-int inputBuffer[Input_Local_BUFFER__SIZE] = {0};
-int outputBuffer[Output_BUFFER_SIZE] = {0};
+int *inputBuffer = NULL;
+int *outputBuffer = NULL;
 
 int reading() {
-    // First gets the first two values from get_value and puts them into the buffer
-    // The second value is length of the data
-    inputBuffer[0] = get_value();
+    // Variables
+    int op_ID;
+    int no_data_points;
 
-    if (inputBuffer[0] == -1) {
+    // Check if the operation id is -1 to end program
+    op_ID = get_value();
+    if (op_ID == -1) {
+        printf("-1 encountered, ending program\n");
         return -1;
     }
 
-    inputBuffer[1] = get_value();
+    // Get the number of data points
+    printf("\nStart new test case:\n");
+    no_data_points = get_value();
+
+    // Allocate the input buffer to heap
+    inputBuffer = (int*) my_malloc((no_data_points + 2) * sizeof(int));
+
+    inputBuffer[0] = op_ID;
+    inputBuffer[1] = no_data_points;
 
     // Uses the length of the data to know how many data points to transfer to the input buffer
     for (int i = 0; i < inputBuffer[1]; i++) {
         inputBuffer[i + 2] = get_value();
     }
 
-    return 0;
+    return inputBuffer[1];
 }
 
-void transferringTOlocal(int localBuffer[]) {
-    for (int i = 0; i < Input_Local_BUFFER__SIZE; i++) {
+void transferringTOlocal(int* localBuffer) {
+    // Copy input buffer to local buffer
+    for (int i = 0; i < inputBuffer[1] + 2; i++) {
         localBuffer[i] = inputBuffer[i];
     }
 
     printf("\nInput Buffer: ");
     printBuffer(inputBuffer);
+
+    // Free input buffer
+    my_free(inputBuffer);
 }
 
-void processing(int localBuffer[]) {
+void processing(int* localBuffer) {
     // A temporary storage variable for the cases MINMAX and ODDEVEN
     int tempStorage = 0;
 
@@ -81,8 +98,12 @@ void processing(int localBuffer[]) {
     printBuffer(localBuffer);
 }
 
-void transferringFROMlocal(int localBuffer[]) {
-    for (int i = 0; i < Output_BUFFER_SIZE; i++) {
+void transferringFROMlocal(int* localBuffer) {
+    // Allocate output buffer to heap
+    outputBuffer = (int*) my_malloc((localBuffer[1] + 2) * sizeof(int));
+
+    // Copy over output buffer from local
+    for (int i = 0; i < localBuffer[1] + 2; i++) {
         outputBuffer[i] = localBuffer[i];
     }
 
@@ -90,7 +111,7 @@ void transferringFROMlocal(int localBuffer[]) {
     printBuffer(outputBuffer);
 }
 
-void submitting(int* localBuffer) {
+void submitting() {
     // Since submit_results returns a 1 if the answers were incorrect,
     // if the result is true, it will print that the answer was incorrect
     // and otherwise print correct
@@ -99,6 +120,9 @@ void submitting(int* localBuffer) {
     } else {
         printf("The results were correct.\n");
     }
+
+    // Free output buffer
+    my_free(outputBuffer);
 }
 
 // Operation Functions

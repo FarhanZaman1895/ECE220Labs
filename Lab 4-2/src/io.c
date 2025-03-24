@@ -48,9 +48,9 @@ int submit_results(int* answer)
         }
     }
     if(output==0) {
-        printf("Test case %d: Successful\n",testCase);
+        printf("\nTest case %d: Successful\n",testCase);
     } else {
-        printf("Test case %d: Failed\n",testCase);
+        printf("\nTest case %d: Failed\n",testCase);
         printf("-----------------------------------\n");
         printf("| %-15s| %-15s|\n","Correct Answer","Your Answer");
         printf("-----------------------------------\n");
