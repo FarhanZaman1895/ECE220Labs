@@ -1,7 +1,6 @@
 // 
 // ECE 220 Lab - Winter 2025 - Programming for Electrical Engineering
 // Lab 5: Object Oriented
-// Author: Farhan Zaman
 //
 
 #include <iostream>
