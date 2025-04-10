@@ -215,6 +215,7 @@ void saveBankAccount::printSummary() {
 void saveBankAccount::callInterest() {
     double interest = balance * interestRate;
     balance += interest;
+    cout << "Interest amount, " << interest << ", new balance, " << balance << endl;
 }
 
 void saveBankAccount::resetWithdraws() {
